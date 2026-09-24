@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ember — Adult video without the dump</title>
+  <meta name="description" content="The tube model, rebuilt. Verified creators, 20-second previews, no popunders. Creators keep 88%. Ember+ is $8/mo." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0808;
+      --bg-2: #140e0e;
+      --card: #1a1212;
+      --line: #322424;
+      --text: #f4ece8;
+      --muted: #a89288;
+      --ember: #ff6b3d;
+      --ember-ink: #2a0c04;
+      --gold: #f0c37a;
+      --mint: #7ee0b8;
+      --danger: #ff5d6c;
+      --shadow: 0 22px 50px rgba(0,0,0,.5);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Geist, ui-sans-serif, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea, select { font: inherit; }
+    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    header {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(12,8,8,.78);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.03em; }
+    .logo {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--ember), #ffb347);
+      color: var(--ember-ink);
+      display: grid; place-items: center;
+      font-family: "IBM Plex Mono", monospace; font-size: 15px; font-weight: 700;
+    }
+    .nav-links { display: flex; gap: 22px; color: var(--muted); font-size: 14px; }
+    .nav-links a:hover { color: var(--text); }
+    .btn {
+      border: 0; cursor: pointer; border-radius: 10px;
+      padding: 10px 14px; font-weight: 600; font-size: 14px;
+    }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+    .btn-primary { background: var(--ember); color: var(--ember-ink); }
+    .btn-gold { background: var(--gold); color: #2a1c04; }
+    .btn-wide { width: 100%; }
+    .hero { padding: 64px 0 28px; }
+    .kicker {
+      color: var(--ember);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    }
+    h1 { font-size: clamp(34px, 7vw, 68px); letter-spacing: -.05em; line-height: 1.02; margin: 14px 0 18px; }
+    .sub { color: var(--muted); font-size: 18px; max-width: 640px; }
+    .cta-row { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 36px 0 8px; }
+    .stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+    .stat b { display: block; font-size: 22px; letter-spacing: -.03em; }
+    .stat span { color: var(--muted); font-size: 12px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .grid-2 { display: grid; grid-template-columns: 1.15fr .85fr; gap: 14px; }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+      padding: 18px; box-shadow: var(--shadow);
+    }
+    .card h3 { font-size: 16px; margin-bottom: 8px; }
+    .card p { color: var(--muted); font-size: 14px; }
+    section { padding: 48px 0; }
+    h2 { font-size: 32px; letter-spacing: -.04em; margin-bottom: 8px; }
+    .lead { color: var(--muted); margin-bottom: 22px; max-width: 720px; }
+    .compare { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .compare th, .compare td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .compare th { color: var(--muted); font-weight: 500; }
+    .good { color: var(--mint); }
+    .bad { color: var(--danger); }
+    .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    form { display: grid; gap: 10px; }
+    input, textarea, select {
+      width: 100%; background: #120c0c; color: var(--text);
+      border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px;
+    }
+    textarea { min-height: 96px; resize: vertical; }
+    label { font-size: 11px; color: var(--muted); display: block; margin-bottom: 6px; letter-spacing: .04em; text-transform: uppercase; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+    .tab {
+      border: 1px solid var(--line); background: transparent; color: var(--muted);
+      border-radius: 99px; padding: 6px 12px; cursor: pointer; font-size: 13px;
+    }
+    .tab.on { background: #2a1610; color: var(--text); border-color: #5a2e18; }
+    .price { font-family: "IBM Plex Mono", monospace; color: var(--gold); }
+    .tag { font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 3px 8px; }
+    .tag.pin { color: var(--gold); border-color: #5a4a22; }
+    .tag.live { color: var(--mint); border-color: #2a5a4a; }
+    .muted { color: var(--muted); font-size: 13px; }
+    .scene { display: flex; flex-direction: column; gap: 10px; min-height: 250px; padding: 0 0 16px; overflow: hidden; }
+    .thumb {
+      height: 148px; border-radius: 16px 16px 0 0;
+      display: grid; place-items: end start; padding: 10px;
+      position: relative;
+    }
+    .thumb span {
+      font-family: "IBM Plex Mono", monospace; font-size: 11px;
+      background: rgba(0,0,0,.55); border-radius: 99px; padding: 3px 8px;
+    }
+    .scene-body { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .who { display: flex; align-items: center; gap: 10px; }
+    .avatar {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: grid; place-items: center; font-weight: 700; font-size: 13px;
+      background: #2a1610; color: var(--ember);
+    }
+    .search { display: flex; gap: 8px; margin-bottom: 16px; }
+    .search input { flex: 1; }
+    .math p { margin-bottom: 10px; }
+    .check { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--muted); }
+    .check input { width: auto; margin-top: 3px; }
+    .toast {
+      position: fixed; bottom: 18px; right: 18px; background: #201510;
+      border: 1px solid #5a2e18; color: var(--gold); padding: 12px 14px;
+      border-radius: 12px; display: none; z-index: 40; max-width: 320px;
+    }
+    footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 13px; }
+    #gate {
+      position: fixed; inset: 0; z-index: 50;
+      background: rgba(8,4,4,.92);
+      display: grid; place-items: center; padding: 24px;
+    }
+    #gate.out { display: none; }
+    .gate-card { width: min(440px, 100%); text-align: center; }
+    .gate-card h2 { margin: 12px 0 8px; }
+    .gate-card p { color: var(--muted); margin-bottom: 18px; }
+    .player {
+      background: #080404;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      min-height: 280px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+    .player .stage {
+      width: 100%; height: 280px;
+      display: grid; place-items: center;
+      background: radial-gradient(circle at 40% 30%, #5a2818, #120808 70%);
+    }
+    .player .meta { padding: 16px; width: 100%; }
+    .bar { height: 4px; background: #2a1814; border-radius: 99px; overflow: hidden; margin: 10px 0; }
+    .bar i { display: block; height: 100%; width: 18%; background: var(--ember); }
+    @media (max-width: 800px) {
+      .nav-links { display: none; }
+      .stats, .grid, .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="gate">
+    <div class="card gate-card">
+      <div class="logo" style="margin:0 auto">E</div>
+      <h2>18+ only</h2>
+      <p>Ember is adult entertainment. You must be 18 or older in your jurisdiction. This demo does not stream real videos.</p>
+      <div class="cta-row" style="justify-content:center">
+        <button class="btn btn-primary" id="enter">I am 18+</button>
+        <button class="btn btn-ghost" id="leave">Leave</button>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top"><span class="logo">E</span> Ember</a>
+      <nav class="nav-links">
+        <a href="#model">Why this</a>
+        <a href="#watch">Watch</a>
+        <a href="#publish">Publish</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+      <button class="btn btn-primary" onclick="document.getElementById('publish').scrollIntoView()">Publish a scene</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <div class="kicker">Modeled on the XNXX tube · built simpler</div>
+        <h1>The dump,<br>deleted.</h1>
+        <p class="sub">XNXX wins on volume: anonymous uploads, ads on every click, a catalog nobody can audit. Ember keeps the watch habit and throws away the scrapyard. Verified creators. Twenty-second previews. Full scene on subscribe or tip. No popunders.</p>
+        <div class="cta-row">
+          <button class="btn btn-primary" onclick="document.getElementById('watch').scrollIntoView()">Watch a preview</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('publish').scrollIntoView()">Publish as a creator</button>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>12%</b><span>platform take on subs and tips</span></div>
+          <div class="stat"><b>88%</b><span>creator keeps</span></div>
+          <div class="stat"><b>$8/mo</b><span>Ember+ — no ads on previews</span></div>
+          <div class="stat"><b>20s</b><span>free preview, then pay the person</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="model">
+      <div class="wrap">
+        <h2>The tube, stripped down</h2>
+        <p class="lead">XNXX is one of the world’s busiest adult tubes (WGCZ, same group as XVideos). Cash is ads on other people’s files. We do not copy the brand, the layout, or the library. We copy the job — find a scene fast — and sell the clean version.</p>
+        <table class="compare">
+          <thead>
+            <tr><th>Piece</th><th>XNXX-style tube</th><th>Ember</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Catalog</td><td class="bad">Anyone dumps a file. Stolen studio cuts sit next to amateurs.</td><td class="good">Verified adult creators only. 2257 on every upload.</td></tr>
+            <tr><td>Watch</td><td class="bad">Full video free, ads and redirects everywhere</td><td class="good">20s preview. Subscribe or tip for the rest.</td></tr>
+            <tr><td>Search</td><td>Tags from 2008, related spam</td><td class="good">One search, four lanes, pins on top</td></tr>
+            <tr><td>Money</td><td>Ad network split. Creators get close to nothing.</td><td class="good">12% take. Pins. Ember+.</td></tr>
+            <tr><td>What we refuse</td><td class="bad">Popunders, leaked dumps, “teen” tags, scraped libraries</td><td class="good">None of that in v1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="watch">
+      <div class="wrap">
+        <h2>Find it. Preview it. Pay the person.</h2>
+        <p class="lead">Search like a tube. Pay like a creator site. The preview is the ad unit. The rest is the product.</p>
+        <div class="search">
+          <input id="q" placeholder="Search scenes or creators" />
+          <button class="btn btn-ghost" id="go-search">Search</button>
+        </div>
+        <div class="tabs" id="lanes">
+          <button class="tab on" data-lane="all">All</button>
+          <button class="tab" data-lane="Solo">Solo</button>
+          <button class="tab" data-lane="Couple">Couple</button>
+          <button class="tab" data-lane="Audio">Audio</button>
+          <button class="tab" data-lane="Short">Short</button>
+        </div>
+        <div class="grid" id="scenes"></div>
+      </div>
+    </section>
+
+    <section id="player-sec">
+      <div class="wrap grid-2">
+        <div class="card" style="padding:0">
+          <div class="player">
+            <div class="stage" id="stage">
+              <div style="text-align:center">
+                <div class="kicker">Preview</div>
+                <h2 id="now-title" style="font-size:28px;margin-top:8px">Hotel window, Friday</h2>
+                <p class="muted" id="now-who">Nova R. · 20s then lock</p>
+              </div>
+            </div>
+            <div class="meta">
+              <div class="bar"><i id="scrub"></i></div>
+              <div class="row">
+                <span class="muted" id="now-clock">0:04 / 0:20 preview</span>
+                <span class="tag live">Live demo</span>
+              </div>
+              <div class="cta-row">
+                <button class="btn btn-primary" id="tip-btn">Tip $8 · they keep $7.04</button>
+                <button class="btn btn-gold" id="sub-btn">Subscribe $9.99/mo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Why this prints</h3>
+          <p>Tubes give the whole file away and pray the ad network pays. That race ends at malware banners. Ember sells the last 80% of the scene to the person who wants it.</p>
+          <p style="margin-top:10px">A $9.99/mo fan × 12% = $1.20 to the house. A $8 tip × 12% = $0.96. A homepage pin is $29 for seven days. Ember+ is $8 to skip preview ads.</p>
+          <p style="margin-top:10px">No catalog to steal. No WGCZ lawsuit. The library is whoever verified today.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="publish">
+      <div class="wrap">
+        <h2>Publish a scene in one screen</h2>
+        <p class="lead">Title, lane, price, file. Check the age box. That is the product. The live version stores 2257 records before the file is public.</p>
+        <div class="grid-2">
+          <div class="card">
+            <form id="pub-form">
+              <div>
+                <label>Title</label>
+                <input name="title" required placeholder="Rain on the glass" />
+              </div>
+              <div>
+                <label>Lane</label>
+                <select name="lane">
+                  <option>Solo</option>
+                  <option>Couple</option>
+                  <option>Audio</option>
+                  <option>Short</option>
+                </select>
+              </div>
+              <div>
+                <label>Subscribe price (USD / month)</label>
+                <input name="price" type="number" min="4" step="1" required placeholder="9" />
+              </div>
+              <div>
+                <label>What the preview is</label>
+                <textarea name="body" required placeholder="One sentence. No stolen studio titles."></textarea>
+              </div>
+              <label class="check">
+                <input type="checkbox" name="age" required />
+                Every performer is 18+. I will keep government ID records (18 U.S.C. § 2257) and I did not upload anyone else’s file.
+              </label>
+              <button class="btn btn-primary" type="submit">Publish scene · 12% on paid</button>
+            </form>
+            <p class="muted" style="margin-top:12px">Demo stores the card here. Live version runs age checks, hashing, and a takedown inbox.</p>
+          </div>
+          <div class="card">
+            <h3>Your scenes</h3>
+            <div id="mine"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sell">
+      <div class="wrap">
+        <h2>This is the money</h2>
+        <p class="lead">You do not need a billion-video archive. You need previews that convert, a pin next to search, and a monthly pass for people who hate ads.</p>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Pin a scene</h3>
+            <form id="pin-form">
+              <input name="who" required placeholder="Creator or studio name" />
+              <select name="kind">
+                <option value="29">Search pin · 7 days · $29</option>
+                <option value="79">Home pin · 30 days · $79</option>
+                <option value="29">Studio page · $29/mo</option>
+              </select>
+              <input name="niche" required placeholder="Lane — e.g. Atlanta couple shorts" />
+              <textarea name="note" placeholder="What should the pin say?"></textarea>
+              <button class="btn btn-gold" type="submit">Hold the unit</button>
+            </form>
+          </div>
+          <div class="card math">
+            <h3>Year-one math that does not need a stolen catalog</h3>
+            <p>2,000 paid fans / month × $9.99 × 12% = $23,976 / year.</p>
+            <p>8,000 tips / month × $6 avg × 12% = $69,120 / year.</p>
+            <p>40 search pins / month × $29 = $13,920 / year. Twelve home pins × $79 × 12 = $11,376.</p>
+            <p>1,200 Ember+ members × $8 = $9,600 / mo once search is a habit.</p>
+            <p>Preview ads on free 20s clips are extra. Take first. Pins second. Plus third. Popunders never.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <div class="wrap">
+        <h2>Pricing</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Watch free</h3>
+            <p>20-second previews. One adult ad on the preview. Tip or subscribe for the rest. No account required to browse.</p>
+          </div>
+          <div class="card">
+            <h3>Ember+ · $8/mo</h3>
+            <p>No ads on previews. A gold badge. One saved queue. You still pay the creator for full scenes.</p>
+          </div>
+          <div class="card">
+            <h3>Studio · $29/mo</h3>
+            <p>Three performer seats, one payout inbox, a pin credit each month. For a shop that does not want a “tube partner” call.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      Ember is a simpler model of an XNXX-style tube (ads on a giant free catalog). Not affiliated with XNXX, XVideos, or WGCZ. Original product and demo only — no scraped videos, no leaked dumps. Wire age verification, 2257 storage, adult billing, and a domain to go live. 18+ only.
+    </div>
+  </footer>
+  <div class="toast" id="toast">Saved.</div>
+
+  <script>
+    const toast = (msg) => {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.style.display = "block";
+      setTimeout(() => t.style.display = "none", 2600);
+    };
+
+    const gate = document.getElementById("gate");
+    if (sessionStorage.getItem("ember-18") === "1") gate.classList.add("out");
+    document.getElementById("enter").onclick = () => {
+      sessionStorage.setItem("ember-18", "1");
+      gate.classList.add("out");
+    };
+    document.getElementById("leave").onclick = () => {
+      window.location.href = "https://www.google.com";
+    };
+
+    const hues = [
+      "linear-gradient(135deg,#5a2018,#1a0c0c)",
+      "linear-gradient(160deg,#3a2040,#12080e)",
+      "linear-gradient(135deg,#20403a,#0c1210)",
+      "linear-gradient(150deg,#403018,#140c08)",
+      "linear-gradient(135deg,#302040,#10080e)",
+      "linear-gradient(145deg,#402028,#14080c)"
+    ];
+
+    const seed = [
+      { title: "Hotel window, Friday", who: "Nova R.", lane: "Solo", dur: "12:04", price: 9.99, pin: true, body: "City light, no talking." },
+      { title: "After the close", who: "Jules & Ari", lane: "Couple", dur: "18:22", price: 11.99, pin: false, body: "Kitchen floor, one take." },
+      { title: "Voice note, 2am", who: "Maren", lane: "Audio", dur: "24:10", price: 6.99, pin: false, body: "Headphones only. No camera." },
+      { title: "Rain on the glass", who: "Sable", lane: "Short", dur: "2:40", price: 4.99, pin: false, body: "Ninety seconds that actually ends." },
+      { title: "Sunday slow", who: "Eden V.", lane: "Solo", dur: "31:08", price: 9.99, pin: false, body: "Unedited, late light." },
+      { title: "The drive back", who: "Cole + Nia", lane: "Couple", dur: "14:55", price: 12.99, pin: true, body: "Parking garage, doors locked." }
+    ];
+
+    let lane = "all";
+    let query = "";
+    const box = document.getElementById("scenes");
+
+    function allScenes() {
+      const extra = JSON.parse(localStorage.getItem("ember-scenes") || "[]");
+      return [...extra, ...seed];
+    }
+
+    function renderScenes() {
+      const list = allScenes().filter(s => {
+        const laneOk = lane === "all" || s.lane === lane;
+        const q = query.trim().toLowerCase();
+        const qOk = !q || (s.title + s.who + s.lane + (s.body || "")).toLowerCase().includes(q);
+        return laneOk && qOk;
+      });
+      box.innerHTML = list.map((s, i) => `
+        <article class="card scene">
+          <div class="thumb" style="background:${hues[i % hues.length]}">
+            <span>${s.dur} · preview 0:20</span>
+          </div>
+          <div class="scene-body">
+            <div class="row">
+              <span class="tag ${s.pin ? "pin" : ""}">${s.pin ? "Pinned · " : ""}${s.lane}</span>
+              <span class="price">$${s.price}/mo</span>
+            </div>
+            <h3>${s.title}</h3>
+            <p>${s.body || ""}</p>
+            <div class="row">
+              <span class="muted">${s.who}</span>
+              <button class="btn btn-ghost" onclick="playScene(${JSON.stringify(s.title)}, ${JSON.stringify(s.who)}, ${s.price})">Preview</button>
+            </div>
+          </div>
+        </article>
+      `).join("") || `<p class="muted">Nothing in this lane yet.</p>`;
+    }
+    renderScenes();
+
+    document.getElementById("lanes").addEventListener("click", (e) => {
+      const b = e.target.closest(".tab");
+      if (!b) return;
+      lane = b.dataset.lane;
+      document.querySelectorAll("#lanes .tab").forEach(t => t.classList.toggle("on", t === b));
+      renderScenes();
+    });
+
+    const runSearch = () => {
+      query = document.getElementById("q").value;
+      renderScenes();
+    };
+    document.getElementById("go-search").onclick = runSearch;
+    document.getElementById("q").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") runSearch();
+    });
+
+    window.playScene = (title, who, price) => {
+      document.getElementById("now-title").textContent = title;
+      document.getElementById("now-who").textContent = who + " · 20s then lock";
+      document.getElementById("scrub").style.width = "18%";
+      document.getElementById("now-clock").textContent = "0:04 / 0:20 preview";
+      document.getElementById("tip-btn").textContent = "Tip $8 · they keep $7.04";
+      document.getElementById("sub-btn").textContent = "Subscribe $" + price + "/mo";
+      document.getElementById("player-sec").scrollIntoView({ behavior: "smooth" });
+      toast("Preview loaded. Full file stays locked until tip or subscribe.");
+    };
+
+    document.getElementById("tip-btn").onclick = () => {
+      toast("Tip hook ready — $8 sent, $0.96 house take, $7.04 to the creator. Wire adult billing to go live.");
+    };
+    document.getElementById("sub-btn").onclick = () => {
+      toast("Subscribe hook ready — 12% to Ember, 88% to the creator, cancel any month.");
+    };
+
+    function renderMine() {
+      const mine = JSON.parse(localStorage.getItem("ember-scenes") || "[]");
+      const el = document.getElementById("mine");
+      if (!mine.length) {
+        el.innerHTML = `<p class="muted">Nothing published yet. Use the form.</p>`;
+        return;
+      }
+      el.innerHTML = mine.map(s => `
+        <div style="padding:10px 0;border-bottom:1px solid var(--line)">
+          <div class="row"><b>${s.title}</b><span class="price">$${s.price}/mo</span></div>
+          <span class="muted">${s.lane} · ${s.who}</span>
+        </div>
+      `).join("");
+    }
+    renderMine();
+
+    document.getElementById("pub-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      const scene = {
+        title: f.get("title"),
+        lane: f.get("lane"),
+        price: Number(f.get("price")),
+        body: f.get("body"),
+        who: "You",
+        dur: "10:00",
+        pin: false
+      };
+      const next = [scene, ...JSON.parse(localStorage.getItem("ember-scenes") || "[]")];
+      localStorage.setItem("ember-scenes", JSON.stringify(next));
+      e.target.reset();
+      renderMine();
+      renderScenes();
+      toast("Scene live on the board. 12% lands when someone pays.");
+    });
+
+    document.getElementById("pin-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      toast("Pin held for " + f.get("who") + " · $" + f.get("kind") + ". Demo only.");
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
